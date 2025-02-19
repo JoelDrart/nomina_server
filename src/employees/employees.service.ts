@@ -5,39 +5,52 @@ import { EmployeeType } from '@prisma/client';
 @Injectable()
 export class EmployeesService {
   constructor(private prisma: PrismaService) {}
-
   async createSalariedEmployee(
+    id: string | undefined,
     name: string,
     salary: number,
     monthsWorked: number,
   ) {
-    return this.prisma.employee.create({
-      data: {
-        name,
-        type: EmployeeType.ASALARIADO,
-        salaried: {
-          create: { salary, monthsWorked },
+    try {
+      return await this.prisma.employee.create({
+        data: {
+          id: id ?? undefined, // Si hay un id, lo usa; si no, Prisma generará uno automáticamente
+          name,
+          type: EmployeeType.ASALARIADO,
+          salaried: {
+            create: { salary, monthsWorked },
+          },
         },
-      },
-      include: { salaried: true },
-    });
+        include: { salaried: true },
+      });
+    } catch (error) {
+      console.error('Error creating salaried employee:', error);
+      throw new Error('Could not create salaried employee');
+    }
   }
 
   async createHourlyEmployee(
+    id: string | undefined,
     name: string,
     hourlyRate: number,
     hoursWorked: number,
   ) {
-    return this.prisma.employee.create({
-      data: {
-        name,
-        type: EmployeeType.POR_HORAS,
-        hourly: {
-          create: { hourlyRate, hoursWorked },
+    try {
+      return await this.prisma.employee.create({
+        data: {
+          id: id ?? undefined,
+          name,
+          type: EmployeeType.POR_HORAS,
+          hourly: {
+            create: { hourlyRate, hoursWorked },
+          },
         },
-      },
-      include: { hourly: true },
-    });
+        include: { hourly: true },
+      });
+    } catch (error) {
+      console.error('Error creating hourly employee:', error);
+      throw new Error('Could not create hourly employee');
+    }
   }
 
   async getAllEmployees() {

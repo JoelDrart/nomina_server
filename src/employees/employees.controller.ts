@@ -12,27 +12,58 @@ import { EmployeesService } from './employees.service';
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
-
   @Post('salaried')
-  createSalaried(
-    @Body() body: { name: string; salary: number; monthsWorked: number },
+  async createSalaried(
+    @Body()
+    body: {
+      id?: string;
+      name: string;
+      salary: number;
+      monthsWorked: number;
+    },
   ) {
-    return this.employeesService.createSalariedEmployee(
-      body.name,
-      body.salary,
-      body.monthsWorked,
-    );
+    try {
+      const employee = await this.employeesService.createSalariedEmployee(
+        body.id,
+        body.name,
+        body.salary,
+        body.monthsWorked,
+      );
+      return { success: true, employee };
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Error creating salaried employee',
+        error,
+      };
+    }
   }
 
   @Post('hourly')
-  createHourly(
-    @Body() body: { name: string; hourlyRate: number; hoursWorked: number },
+  async createHourly(
+    @Body()
+    body: {
+      id?: string;
+      name: string;
+      hourlyRate: number;
+      hoursWorked: number;
+    },
   ) {
-    return this.employeesService.createHourlyEmployee(
-      body.name,
-      body.hourlyRate,
-      body.hoursWorked,
-    );
+    try {
+      const employee = await this.employeesService.createHourlyEmployee(
+        body.id,
+        body.name,
+        body.hourlyRate,
+        body.hoursWorked,
+      );
+      return { success: true, employee };
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Error creating hourly employee',
+        error,
+      };
+    }
   }
 
   @Get()
