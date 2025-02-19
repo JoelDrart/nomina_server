@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 
 @Controller('employees')
@@ -30,5 +38,36 @@ export class EmployeesController {
   @Get()
   getAll() {
     return this.employeesService.getAllEmployees();
+  }
+
+  @Put('salaried/:id')
+  updateSalaried(
+    @Body() body: { name: string; salary: number; monthsWorked: number },
+    @Param('id') id: string,
+  ) {
+    return this.employeesService.updateSalariedEmployee(
+      id,
+      body.name,
+      body.salary,
+      body.monthsWorked,
+    );
+  }
+
+  @Put('hourly/:id')
+  updateHourly(
+    @Body() body: { name: string; hourlyRate: number; hoursWorked: number },
+    @Param('id') id: string,
+  ) {
+    return this.employeesService.updateHourlyEmployee(
+      id,
+      body.name,
+      body.hourlyRate,
+      body.hoursWorked,
+    );
+  }
+
+  @Delete(':id')
+  removeEmployee(@Param('id') id: string) {
+    return this.employeesService.deleteEmployee(id);
   }
 }
