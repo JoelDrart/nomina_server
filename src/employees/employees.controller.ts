@@ -12,6 +12,7 @@ import { EmployeesService } from './employees.service';
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
+
   @Post('salaried')
   async createSalaried(
     @Body()
@@ -20,6 +21,14 @@ export class EmployeesController {
       name: string;
       salary: number;
       monthsWorked: number;
+      telefono: string;
+      email: string;
+      especialidad: string;
+      cedula: string;
+      horario_inicio: string;
+      horario_fin: string;
+      duracion_cita: number;
+      activo: boolean;
     },
   ) {
     try {
@@ -28,12 +37,21 @@ export class EmployeesController {
         body.name,
         body.salary,
         body.monthsWorked,
+        body.telefono,
+        body.email,
+        body.especialidad,
+        body.cedula,
+        body.horario_inicio,
+        body.horario_fin,
+        body.duracion_cita,
+        body.activo,
       );
       return { success: true, employee };
     } catch (error) {
       return {
         success: false,
         message: 'Error creating salaried employee',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         error,
       };
     }
@@ -47,6 +65,14 @@ export class EmployeesController {
       name: string;
       hourlyRate: number;
       hoursWorked: number;
+      telefono: string;
+      email: string;
+      especialidad: string;
+      cedula: string;
+      horario_inicio: string;
+      horario_fin: string;
+      duracion_cita: number;
+      activo: boolean;
     },
   ) {
     try {
@@ -55,12 +81,21 @@ export class EmployeesController {
         body.name,
         body.hourlyRate,
         body.hoursWorked,
+        body.telefono,
+        body.email,
+        body.especialidad,
+        body.cedula,
+        body.horario_inicio,
+        body.horario_fin,
+        body.duracion_cita,
+        body.activo,
       );
       return { success: true, employee };
     } catch (error) {
       return {
         success: false,
         message: 'Error creating hourly employee',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         error,
       };
     }
@@ -73,7 +108,20 @@ export class EmployeesController {
 
   @Put('salaried/:id')
   updateSalaried(
-    @Body() body: { name: string; salary: number; monthsWorked: number },
+    @Body()
+    body: {
+      name: string;
+      salary: number;
+      monthsWorked: number;
+      telefono: string;
+      email: string;
+      especialidad: string;
+      cedula: string;
+      horario_inicio: string;
+      horario_fin: string;
+      duracion_cita: number;
+      activo: boolean;
+    },
     @Param('id') id: string,
   ) {
     return this.employeesService.updateSalariedEmployee(
@@ -81,12 +129,33 @@ export class EmployeesController {
       body.name,
       body.salary,
       body.monthsWorked,
+      body.telefono,
+      body.email,
+      body.especialidad,
+      body.cedula,
+      body.horario_inicio,
+      body.horario_fin,
+      body.duracion_cita,
+      body.activo,
     );
   }
 
   @Put('hourly/:id')
   updateHourly(
-    @Body() body: { name: string; hourlyRate: number; hoursWorked: number },
+    @Body()
+    body: {
+      name: string;
+      hourlyRate: number;
+      hoursWorked: number;
+      telefono: string;
+      email: string;
+      especialidad: string;
+      cedula: string;
+      horario_inicio: string;
+      horario_fin: string;
+      duracion_cita: number;
+      activo: boolean;
+    },
     @Param('id') id: string,
   ) {
     return this.employeesService.updateHourlyEmployee(
@@ -94,6 +163,14 @@ export class EmployeesController {
       body.name,
       body.hourlyRate,
       body.hoursWorked,
+      body.telefono,
+      body.email,
+      body.especialidad,
+      body.cedula,
+      body.horario_inicio,
+      body.horario_fin,
+      body.duracion_cita,
+      body.activo,
     );
   }
 

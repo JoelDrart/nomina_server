@@ -4,7 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -16,11 +15,19 @@ datasource db {
 }
 
 model Employee {
-  id           String  @id @default(uuid())
-  name         String
-  type         EmployeeType
-  salaried     SalariedEmployee?
-  hourly       HourlyEmployee?
+  id             String            @id @default(uuid())
+  name           String
+  telefono       String
+  email          String            @unique
+  especialidad   String
+  cedula         String            @unique
+  horario_inicio String
+  horario_fin    String
+  duracion_cita  Int // en minutos
+  activo         Boolean           @default(true)
+  type           EmployeeType
+  salaried       SalariedEmployee?
+  hourly         HourlyEmployee?
 }
 
 model SalariedEmployee {
@@ -32,11 +39,11 @@ model SalariedEmployee {
 }
 
 model HourlyEmployee {
-  id           String   @id @default(uuid())
-  employeeId   String   @unique
-  hourlyRate   Float
-  hoursWorked  Int
-  employee     Employee @relation(fields: [employeeId], references: [id])
+  id          String   @id @default(uuid())
+  employeeId  String   @unique
+  hourlyRate  Float
+  hoursWorked Int
+  employee    Employee @relation(fields: [employeeId], references: [id])
 }
 
 enum EmployeeType {
